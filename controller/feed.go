@@ -35,7 +35,6 @@ func Feed(c *gin.Context) {
 	if err != nil {
 		log.Println("没有视频投稿")
 	}
-
 	if len(video) >= 30 {
 		VideoCount = 30
 	} else {
@@ -50,6 +49,7 @@ func Feed(c *gin.Context) {
 		video_res[i].CoverUrl = video[i].CoverUrl
 		video_res[i].IsFavorite = false //未开发
 		video_res[i].CommentCount = 0   //未开发
+		video_res[i].FavoriteCount = 0  //未开发
 		video_res[i].Title = video[i].Title
 	}
 	c.JSON(http.StatusOK, FeedResponse{

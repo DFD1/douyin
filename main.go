@@ -9,7 +9,6 @@ func main() {
 	//go service.RunMessageServer()
 	dao.Init()
 	dao.InitRedisClient()
-
 	r := gin.Default()
 	r.Static("/public", "./public")
 
