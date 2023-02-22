@@ -64,7 +64,7 @@ func Publish(c *gin.Context) {
 		return
 	}
 	imageName_ := "./public/" + imageName
-	GetSnapshot(saveFile, imageName_, 1)
+	GetSnapshot(saveFile, imageName_, 50)
 	if err == nil {
 		ok := dao.InsertVideo(user.Id, sqlPlayUrl, sqlCoverUrl, time.Now(), title)
 		if ok != true {
@@ -104,11 +104,10 @@ func PublishList(c *gin.Context) {
 		video_res[i].PlayUrl = video[i].PlayUrl
 		video_res[i].Title = video[i].Title
 		video_res[i].CoverUrl = video[i].CoverUrl
-		video_res[i].FavoriteCount = 3  //未开发
-		video_res[i].CommentCount = 4   //未开发
-		video_res[i].IsFavorite = false //未开发
+		video_res[i].FavoriteCount = video[i].FavoriteCount //未开发
+		video_res[i].CommentCount = video[i].CommentCount   //未开发
+		video_res[i].IsFavorite = video[i].IsFavorite       //未开发
 		video_res[i].Author = user_res
-
 	}
 	c.JSON(http.StatusOK, VideoListResponse{
 		Response: Response{
