@@ -11,9 +11,6 @@ func main() {
 	dao.InitRedisClient()
 	r := gin.Default()
 	r.Static("/public", "./public")
-	//r.StaticFS("/public", http.Dir("public"))
-	dao.DeleteComment(1)
-
 	initRouter(r)
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
