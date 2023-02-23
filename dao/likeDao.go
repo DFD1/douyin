@@ -32,3 +32,10 @@ func UpdateLike(user_id int64, video_id int64, cancel int64) bool {
 	}
 	return true
 }
+
+//查询用户点赞的视频id的集合
+func QueryLikeVideoId(user_id int64) []int64 {
+	var res []int64
+	Db.Table("likes").Where(&Like{UserId: user_id, Cancel: 1}).Select("video_id").Find(&res)
+	return res
+}

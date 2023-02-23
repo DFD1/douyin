@@ -85,3 +85,15 @@ func QueryVideoFavoriteCount(video_id int64) int64 {
 	Db.Table("videos").Where("id", video_id).Select("favorite_count").Scan(&res)
 	return res
 }
+
+//通过video_id数组  查询该用户点赞的所有视频
+func QueryAllLikeVideoById(video_id []int64) []Video {
+	var videos []Video
+
+	for i := 0; i < len(video_id); i++ {
+		var video Video
+		Db.Table("videos").Where("id", video_id[i]).Find(&video)
+		videos = append(videos, video)
+	}
+	return videos
+}

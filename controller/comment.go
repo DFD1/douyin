@@ -1,8 +1,11 @@
 package controller
 
 import (
+	"github.com/RaymondCode/simple-demo/dao"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
+	"time"
 )
 
 type CommentListResponse struct {
@@ -19,7 +22,39 @@ type CommentActionResponse struct {
 func CommentAction(c *gin.Context) {
 	token := c.Query("token")
 	actionType := c.Query("action_type")
+	video_id := c.Query("video_id")
+	video_id_int64, _ := strconv.ParseInt(video_id, 10, 64)
 
+	user, err := dao.QueryByToken(token)
+	user_res := User{
+		Id:            user.Id,
+		Name:          user.Name,
+		FollowerCount: 3,     //未开发
+		FollowCount:   4,     //未开发
+		IsFollow:      false, //未开发
+	}
+	if err != nil {
+		if actionType == "1" {
+			text := c.Query("comment_text")
+			comment, ok := dao.InsertComment(user.Id, video_id_int64, text, time.Now(), 0)
+			if ok == true {
+				comment_res := Comment{
+					Id:         comment.Id,
+					User:       user_res,
+					Content:    text,
+					CreateDate: time.Now().Format("2006-01-02 15:04:05"),
+				}
+				c.JSON(http.StatusOK, CommentActionResponse{
+					Response: Response{StatusCode: 0},
+					Comment:  comment_res,
+				})
+			}
+		}
+		if actionType == "2" {
+
+		}
+
+	}
 	if user, exist := usersLoginInfo[token]; exist {
 		if actionType == "1" {
 			text := c.Query("comment_text")

@@ -75,7 +75,8 @@ func FavoriteList(c *gin.Context) {
 		FollowerCount: 4, //未开发
 		IsFollow:      false,
 	}
-	video, _ := dao.GetAllVideoById(user_id_int64)
+	video_id := dao.QueryLikeVideoId(user_id_int64)
+	video := dao.QueryAllLikeVideoById(video_id)
 	var video_response []Video
 	if len(video) == 0 {
 		c.JSON(http.StatusOK, VideoListResponse{
